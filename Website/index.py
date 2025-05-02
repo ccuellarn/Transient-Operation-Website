@@ -122,6 +122,7 @@ def index():
                     'tiempo_exposicion': f"{row['Time expo']:2f}s"
 
                 })
+
             names = [i for i in order['Name'].drop_duplicates()]
             ra = [Angle(i, unit=u.deg).degree for i in order['RA'].drop_duplicates()]
             dec = [Angle(i, unit=u.deg).degree for i in order['DEC'].drop_duplicates()]
@@ -130,72 +131,14 @@ def index():
 
             plt.title('Starting time {}\n Location: ({} , {})'.format(date_i,observer[0],observer[1]))
 
-            plt.scatter(ra,dec,color='purple',marker='*', s=80)
+            plt.scatter(ra,dec,color='#8cdedb',marker='*', s=80)
             for i in range(0, len(dec)):
-                plt.text(ra[i], dec[i], '{}) {}'.format(str(i+1), str(names[i])), color='k')
+                plt.text(ra[i]+0.2, dec[i], '{}'.format( str(names[i])), color='k')
     
             plt.ylabel(r"Declination [deg]",fontsize=14)
             plt.xlabel(r'Right ascension [deg]',fontsize=14)
             plt.grid(True)
             plt.tight_layout()
-            # # Generar la gráfica
-            # plt.figure(figsize=(11,7))
-
-            # ordertime = []
-            # min_alt = []
-            # max_alt = []
-            # orderlabels = [i for i in order['Label'].drop_duplicates()]
-
-            # for i in orderlabels: 
-            #     hour_i = order.loc[order['Label']==i].head(1)['Time'].iloc[0].datetime.hour
-            #     hour_f = order.loc[order['Label']==i].tail(1)['Time'].iloc[0].datetime.hour
-            #     minute_i = order.loc[order['Label']==i].head(1)['Time'].iloc[0].datetime.minute
-            #     minute_f = order.loc[order['Label']==i].tail(1)['Time'].iloc[0].datetime.minute
-
-    
-            #     if 13 <= hour_i <= 23:
-            #         hour_i = hour_i-24
-            #     if 13 <= hour_f <= 23:
-            #         hour_f = hour_f-24
-        
-            #     ordertime.append((float(f"{hour_i}.{minute_i}"),float(f"{hour_f}.{minute_f}"))) 
-
-            
-            # for each in graphic:
-            #     if each['Label'].iloc[0] in orderlabels:
-
-            #         ALT = each['Alt'].tolist()
-            #         AZ = each['Az'].tolist()
-            #         T = each['Time'].tolist()
-
-            #         plt.scatter(T, ALT,c=AZ,cmap="viridis",lw=1)
-
-            #         for j, alt in enumerate(ALT):
-            #             plt.annotate(str(each['Label'].iloc[0]), (T[j], alt + 1), color='k')        
-
-            #         min_alt.append(min(ALT))
-            #         max_alt.append(max(ALT))
-
-            # # Limits of good observations
-            # plt.plot(time_array, [limite_altitud] * len(time_array), '--', color='grey')
-            # #Details
-            # plt.colorbar().set_label("Azimuth [deg]")
-            # plt.xlabel("Hours around Midnight")
-            # plt.ylabel("Altitude [deg]")
-
-            # # Limits of good observations
-            # for each in ordertime:
-            #     plt.plot([each[0]] * len(np.linspace(min(min_alt),max(max_alt), len(time_array))), np.linspace(min(min_alt),max(max_alt), len(time_array)), '--', color='orange')
-            #     plt.plot([each[1]] * len(np.linspace(min(min_alt),max(max_alt),len(time_array))), np.linspace(min(min_alt),max(max_alt), len(time_array)), '--', color='salmon')
-
-            #     plt.text( each[0],min(min_alt), 'S', color='orange')
-            #     plt.text( each[1],min(min_alt), 'F',color='salmon')
-
-            # #Exes
-            # hours = [str(round(num + 24,1)) if num < 0 else str(round(num,1)) for num in np.array([-6,-4,-2,0,2,4,6])]
-            # plt.xticks(np.array([-6,-4,-2,0,2,4,6]), hours)
-            # plt.title('Starting time {}\n Location: ({} , {})'.format(date_i,observer[0],observer[1]))
-            # plt.grid(True)
 
             # Convertir la gráfica a imagen base64
             buffer = BytesIO()
